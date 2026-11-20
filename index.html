@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="الرخصة في ربع ساعة… مش يوم كامل">
+<meta property="og:description" content="كروكي DXF بالردود، وتقسيم مقترح للدور، وتقارير Word جاهزة. خصم 50% لأول 10 مكاتب وتجربة مجانية 14 يوم.">
+<meta property="og:image" content="https://khalilrady.github.io/rokhsa/cover.png">
+<meta property="og:url" content="https://khalilrady.github.io/rokhsa/">
+<meta property="og:locale" content="ar_EG">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23F5C94A%27/%3E%3Crect x=%277%27 y=%277%27 width=%2718%27 height=%2718%27 fill=%27%231B2027%27/%3E%3C/svg%3E">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><title>نظام إدارة رخص البناء</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="برنامج للمكاتب الهندسية: كروكي DXF بالردود، تقسيم مقترح للدور، وتقارير Word جاهزة. خصم 50% لأول 10 مكاتب.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: the whole page is a CAD workspace — title bar, live model-space viewport with a properties palette,
+   features as drawing layers, the offer wrapped in a revision cloud, a title block as the footer. Single dark world by choice. */
+:root{
+  --model:#1B2027; --panel:#232A32; --panel-2:#2B333D; --grid:#242B34; --grid-2:#2E3641;
+  --ink:#ECEFF2; --muted:#8F9BA7; --line:#3A4450;
+  --red:#FF5A4E; --cyan:#43C9E6; --yellow:#F5C94A; --green:#62D596; --magenta:#E07BE0;
+  --on-yellow:#1B2027;
+  --f-display:"Alexandria","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--model);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.75}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.2}
+p{margin:0}
+a{color:inherit}
+.mono{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+
+/* title bar */
+.titlebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--panel)}
+.titlebar .wrap{display:flex;align-items:center;gap:20px;min-height:56px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-size:1rem;white-space:nowrap}
+.logo i{width:26px;height:26px;border:2px solid var(--ink);position:relative;flex:none}
+.logo i::after{content:"";position:absolute;inset:auto 0 0 auto;width:9px;height:100%;background:repeating-linear-gradient(45deg,var(--red) 0 2px,transparent 2px 5px)}
+.file{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);direction:ltr}
+.nav{display:flex;gap:18px;margin-inline-start:auto;font-size:.92rem}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--f-display);font-weight:800;text-decoration:none;
+  border:0;border-radius:3px;padding:14px 26px;font-size:1.02rem;cursor:pointer;white-space:nowrap;transition:transform .15s ease,box-shadow .15s ease}
+.btn-y{background:var(--yellow);color:var(--on-yellow);box-shadow:4px 4px 0 var(--red)}
+.btn-y:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--red)}
+.btn-o{background:transparent;color:var(--ink);outline:1px solid var(--line)}
+.btn-o:hover{outline-color:var(--ink)}
+.btn-sm{padding:9px 16px;font-size:.9rem}
+
+/* hero */
+.hero{padding-block:56px 40px}
+.hero-top{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:end;margin-bottom:36px}
+.kicker{font-family:var(--f-mono);color:var(--yellow);font-size:.82rem;letter-spacing:.06em;direction:ltr;text-align:right;margin-bottom:14px}
+h1{font-size:clamp(2.6rem,7.4vw,6rem);font-weight:900;letter-spacing:-.02em;line-height:1.05}
+h1 .ghost{display:block;color:transparent;-webkit-text-stroke:1.5px var(--muted);font-weight:800}
+.hero-side{display:flex;flex-direction:column;gap:22px;padding-bottom:10px}
+.hero-side p{font-size:1.15rem;color:var(--muted)}
+.hero-side b{color:var(--ink);font-weight:600}
+.ctas{display:flex;gap:14px;flex-wrap:wrap}
+
+/* workspace */
+.ws{display:grid;grid-template-columns:1fr 300px;border:1px solid var(--line);background:var(--panel)}
+.vp{position:relative;min-width:0;border-inline-end:1px solid var(--line);display:flex;flex-direction:column}
+.vp-tabs{display:flex;gap:2px;background:var(--panel);border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:.78rem;direction:ltr}
+.vp-tabs span{padding:8px 14px;color:var(--muted)}
+.vp-tabs span.on{background:var(--model);color:var(--ink);border-top:2px solid var(--yellow)}
+.canvas{position:relative;background-color:var(--model);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+  linear-gradient(var(--grid-2) 1px,transparent 1px),linear-gradient(90deg,var(--grid-2) 1px,transparent 1px);
+  background-size:20px 20px,20px 20px,100px 100px,100px 100px}
+#cad{display:block;width:100%;height:auto;touch-action:pan-y}
+@media (hover:hover) and (pointer:fine){#cad{cursor:none}}
+.ucs{position:absolute;left:14px;bottom:12px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);direction:ltr}
+.cmd{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;justify-content:space-between;background:#13171C;border-top:1px solid var(--line);
+  padding:10px 14px;font-size:.88rem;min-height:44px}
+.cmd .prompt{color:var(--muted)}
+.cmd .prompt b{color:var(--yellow);font-family:var(--f-mono);font-weight:600}
+#coords{color:var(--cyan);font-size:.8rem}
+
+.props{display:flex;flex-direction:column;min-width:0}
+.props h3{font-family:var(--f-mono);font-size:.74rem;font-weight:600;letter-spacing:.08em;color:var(--muted);direction:ltr;text-align:right;
+  padding:10px 16px;background:var(--panel-2);border-bottom:1px solid var(--line)}
+.pgroup{padding:16px;display:flex;flex-direction:column;gap:14px;border-bottom:1px solid var(--line)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{display:flex;justify-content:space-between;font-size:.9rem}
+.field output{font-family:var(--f-mono);color:var(--cyan)}
+input[type=range]{width:100%;accent-color:var(--yellow);direction:ltr}
+.compass{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,auto);gap:6px;align-items:center;justify-items:center}
+.compass .lot{grid-area:2/2;width:100%;aspect-ratio:1;max-width:72px;border:2px solid var(--ink)}
+.st{font-family:var(--f-body);font-size:.8rem;background:var(--model);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:6px 8px;cursor:pointer;width:100%}
+.st[aria-pressed=true]{background:var(--red);color:#fff;border-color:var(--red)}
+.st.top{grid-area:1/2}.st.bottom{grid-area:3/2}.st.left{grid-area:2/1}.st.right{grid-area:2/3}
+.layers{list-style:none;margin:0;padding:0}
+.layers li{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--line);font-size:.88rem}
+.layers .sw{width:12px;height:12px;flex:none}
+.layers .nm{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);direction:ltr;margin-inline-start:auto}
+.bulb{appearance:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);cursor:pointer;flex:none;margin:0}
+.bulb:checked{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 8px var(--yellow)}
+.note-sm{font-size:.78rem;color:var(--muted);padding:12px 16px}
+
+/* sections */
+section.band{padding-block:88px;border-top:1px solid var(--line)}
+section.alt{background:var(--panel)}
+.sh{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:44px;align-items:baseline}
+.sh .tag{font-family:var(--f-mono);font-size:.8rem;color:var(--yellow);direction:ltr;text-align:right;letter-spacing:.06em}
+.sh h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:800}
+.sh p{grid-column:2;color:var(--muted);max-width:40em;margin-top:-20px}
+
+/* time bars */
+.bars{display:flex;flex-direction:column;gap:30px}
+.barrow{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:center}
+.barrow .lbl{font-family:var(--f-display);font-weight:600}
+.barrow .lbl small{display:block;font-family:var(--f-mono);font-size:.85rem;color:var(--muted);font-weight:400}
+.track{display:flex;height:54px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(100% / 10));border-bottom:1px solid var(--muted);min-width:0}
+.seg{height:100%;display:flex;align-items:center;justify-content:center;font-size:.82rem;overflow:hidden;white-space:nowrap;border-inline-start:2px solid var(--model);color:var(--on-yellow);font-weight:600}
+.seg.a{background:var(--muted)} .seg.b{background:#6F7B87} .seg.c{background:#56616C;color:var(--ink)}
+.seg.fast{background:var(--yellow);min-width:6px}
+.scale{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);direction:ltr;margin-inline-start:232px}
+.fine{font-size:.85rem;color:var(--muted);margin-top:20px}
+
+/* layers as features */
+.lyr{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.lyr article{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;padding:30px 0;border-bottom:1px solid var(--line);min-width:0}
+.lyr article:nth-child(odd){padding-inline-end:36px;border-inline-end:1px solid var(--line)}
+.lyr article:nth-child(even){padding-inline-start:36px}
+.lyr .sw{grid-row:span 3;width:16px;height:100%;min-height:60px}
+.lyr .nm{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);direction:ltr;text-align:right}
+.lyr h3{font-size:1.3rem;font-weight:800}
+.lyr p{color:var(--muted)}
+
+/* plan */
+.plan{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+.plan figure{margin:0;background:var(--model);border:1px solid var(--line);padding:16px;min-width:0}
+.plan svg{width:100%;height:auto;display:block}
+.plan figcaption{font-size:.84rem;color:var(--muted);padding-top:10px}
+.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+.ticks li{display:grid;grid-template-columns:18px 1fr;gap:14px}
+.ticks li::before{content:"";width:12px;height:12px;margin-top:9px;background:var(--green);transform:rotate(45deg)}
+.ticks.y li::before{background:var(--yellow)}
+
+/* mobile */
+.phones{display:flex;gap:32px;justify-content:center;overflow-x:auto;padding:6px 4px 18px;scroll-snap-type:x mandatory}
+.ph{flex:none;width:276px;display:flex;flex-direction:column;gap:14px;scroll-snap-align:center}
+.ph-f{border-radius:36px;background:#0C0E11;padding:9px;border:1px solid var(--line);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.scr{border-radius:28px;background:#15181C;height:560px;overflow:hidden;position:relative;font-size:11.5px;line-height:1.55;color:#E3E7EA;display:flex;flex-direction:column}
+.sb{display:flex;justify-content:space-between;padding:8px 18px 4px;font-family:var(--f-mono);font-size:10px;color:#AEB6BD;direction:ltr}
+.ab{display:flex;align-items:center;gap:10px;padding:8px 14px 10px;font-family:var(--f-display);font-size:14px;font-weight:600}
+.ab .ic{margin-inline-start:auto;color:#AEB6BD;font-size:13px}
+.tabs{display:flex;justify-content:space-around;border-bottom:1px solid #2A2F35;font-size:11px;color:#9AA3AB}
+.tabs span{padding:6px 2px 8px}
+.tabs .on{color:#8CCFF0;border-bottom:2px solid #8CCFF0}
+.chips{display:flex;gap:6px;padding:0 10px 8px;white-space:nowrap;overflow:hidden}
+.chip{border:1px solid #3A4048;border-radius:9px;padding:4px 9px;font-size:10.5px}
+.chip.on{background:#2D4756;border-color:#2D4756}
+.srch{margin:0 10px 8px;border:1.5px solid #8CCFF0;border-radius:8px;padding:7px 10px;color:#7F8992;font-size:10.5px}
+.cardm{background:#1E2227;border-radius:12px;margin:0 10px 8px;padding:9px 11px;display:grid;grid-template-columns:1fr auto;gap:2px 8px}
+.cardm b{font-weight:600;font-size:12px}
+.cardm .n{color:#7F8992;font-family:var(--f-mono);font-size:10px;direction:ltr}
+.cardm .pl{color:#8F99A2;font-size:10px}
+.badge-m{border:1px solid;border-radius:999px;padding:1px 8px;font-size:9.5px;justify-self:start;align-self:center}
+.b-or{color:#F0B357;border-color:#F0B357}.b-bl{color:#7FB2F7;border-color:#7FB2F7}.b-gr{color:#55C98F;border-color:#55C98F}.b-rd{color:#F0806F;border-color:#F0806F}
+.due{font-size:9.5px;color:#8F99A2}.due.late{color:#F0806F}
+.fab{position:absolute;bottom:16px;right:14px;background:#2A6F8E;color:#fff;border-radius:14px;padding:9px 14px;font-weight:600;font-size:11.5px}
+.sum{background:#2A3742;border-radius:10px;margin:8px 10px;padding:8px 11px;font-size:10.5px}
+.sum div{display:flex;justify-content:space-between}
+.lbl-m{padding:2px 12px 4px;font-size:10.5px;color:#C9D0D6}
+.krk{background:#fff;border-radius:10px;margin:0 10px 8px}
+.krk svg{display:block;width:100%;height:auto}
+.side{background:#1E2227;border-radius:12px;margin:0 10px 8px;padding:9px 11px;display:flex;flex-direction:column;gap:7px}
+.side .hd{display:flex;justify-content:space-between;align-items:center}
+.seg2{display:flex;border:1px solid #3A4048;border-radius:999px;overflow:hidden;font-size:10px}
+.seg2 span{padding:3px 10px}.seg2 .on{background:#2D4756}
+.inp{border:1px solid #3A4048;border-radius:7px;padding:5px 9px;display:flex;justify-content:space-between;font-size:10.5px}
+.inp i{font-style:normal;color:#7F8992;font-size:9.5px}
+.inp.focus{border-color:#8CCFF0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.note-m{padding:8px 12px;color:#AEB6BD;font-size:10.5px}
+.bt{margin:0 10px 8px;border-radius:999px;padding:8px;text-align:center;font-weight:600;font-size:11px;border:1px solid #8CCFF0;color:#8CCFF0}
+.bt.fill{background:#8CCFF0;color:#10232D}
+.req{margin:2px 10px;display:flex;flex-direction:column}
+.req div{display:grid;grid-template-columns:1fr auto;gap:0 8px;padding:7px 4px;border-bottom:1px solid #262B31;font-size:10.5px}
+.req small{color:#8F99A2;font-size:9.5px}
+.req .ok{color:#55C98F}.req .wait{color:#F0B357}
+.toast{position:absolute;bottom:14px;left:10px;right:10px;background:#E9EDF0;color:#15181C;border-radius:8px;padding:9px 11px;font-size:10.5px;font-weight:500}
+.ph figcaption{display:flex;flex-direction:column;gap:4px}
+.ph figcaption b{font-family:var(--f-display);font-size:1.05rem}
+.ph figcaption span{color:var(--muted);font-size:.92rem}
+.demo-note{font-size:.82rem;color:var(--muted);text-align:center;margin-top:8px}
+
+/* stages */
+.stages{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,1fr);counter-reset:s;border:1px solid var(--line)}
+.stages li{counter-increment:s;padding:18px 14px;border-inline-start:1px solid var(--line);display:flex;flex-direction:column;gap:10px;font-size:.92rem;min-width:0}
+.stages li:first-child{border-inline-start:0}
+.stages li::before{content:counter(s);font-family:var(--f-mono);font-size:1.6rem;color:var(--muted);line-height:1}
+.stages li:last-child{background:var(--green);color:var(--on-yellow);font-weight:600}
+.stages li:last-child::before{color:var(--on-yellow)}
+
+/* offer */
+.offer-wrap{position:relative;padding:34px}
+.cloud{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.cloud path{fill:none;stroke:var(--red);stroke-width:2}
+.offer{display:grid;grid-template-columns:auto 1fr auto;gap:48px;align-items:center;background:var(--model);border:1px solid var(--line);padding:40px}
+.pct{font-family:var(--f-display);font-weight:900;font-size:clamp(5rem,13vw,9.5rem);line-height:.85;color:var(--yellow);direction:ltr;letter-spacing:-.04em}
+.pct small{display:block;font-size:.22em;letter-spacing:0;color:var(--ink);font-weight:800;text-align:center;margin-top:12px;direction:rtl}
+.offer h2{font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:800;margin-bottom:16px}
+.delta{position:absolute;top:6px;inset-inline-start:30px;background:var(--model);color:var(--red);font-family:var(--f-mono);font-size:.8rem;padding:0 8px;direction:ltr}
+.delta b{display:inline-grid;place-items:center;width:22px;height:20px;border:1.5px solid var(--red);clip-path:polygon(50% 0,100% 100%,0 100%);font-size:.6rem;padding-top:5px;margin-inline-end:6px}
+
+/* faq */
+.faq{border-top:1px solid var(--line);max-width:860px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;gap:16px;align-items:center;padding:22px 0;font-family:var(--f-display);font-weight:600;font-size:1.12rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+";font-family:var(--f-mono);color:var(--yellow);font-size:1.3rem;width:20px;flex:none}
+.faq details[open] summary::before{content:"−"}
+.faq details p{padding:0 36px 24px 0;color:var(--muted);max-width:44em}
+
+/* cta */
+.cta{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.cta h2{font-size:clamp(2.2rem,5.5vw,4.4rem);font-weight:900;letter-spacing:-.02em}
+.phonecard{background:var(--model);border:1px solid var(--line);padding:28px;display:flex;flex-direction:column;gap:16px}
+.phonecard .lbl{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);direction:ltr;text-align:right;letter-spacing:.06em}
+.num{font-family:var(--f-mono);font-size:clamp(1.6rem,3.6vw,2.3rem);font-weight:600;direction:ltr;text-align:right;user-select:all;color:var(--ink)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.fbline{display:flex;align-items:center;gap:14px;font-family:var(--f-display);font-weight:800;font-size:clamp(1.5rem,3.4vw,2.1rem)}
+.fbi{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#1877F2;color:#fff;font-family:Arial,sans-serif;font-weight:900;font-size:1.7rem;line-height:1;padding-top:5px;flex:none}
+
+/* title block */
+.tb{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr 1fr;border:2px solid var(--ink);margin-block:40px 32px;font-size:.84rem}
+.tb > div{padding:12px 16px;border-inline-start:1px solid var(--ink);display:flex;flex-direction:column;gap:2px;min-width:0}
+.tb > div:first-child{border-inline-start:0}
+.tb small{color:var(--muted);font-family:var(--f-mono);font-size:.7rem;direction:ltr;text-align:right;letter-spacing:.06em}
+.tb b{font-family:var(--f-display);font-weight:600}
+
+@media (max-width:1000px){
+  .hero-top,.plan,.cta{grid-template-columns:1fr}
+  .ws{grid-template-columns:1fr}
+  .vp{border-inline-end:0;border-bottom:1px solid var(--line)}
+  .props{display:grid;grid-template-columns:1fr 1fr}
+  .props h3{grid-column:1/-1}
+  .stages{grid-template-columns:repeat(4,1fr)}
+  .stages li:nth-child(5){border-inline-start:0}
+  .stages li:nth-child(n+5){border-top:1px solid var(--line)}
+  .offer{grid-template-columns:1fr;gap:24px}
+  .nav{display:none}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .file{display:none}
+  .titlebar .btn{margin-inline-start:auto}
+  .props{display:flex}
+  .sh,.barrow{grid-template-columns:1fr;gap:10px}
+  .sh p{grid-column:1;margin-top:0}
+  .scale{margin-inline-start:0}
+  .lyr{grid-template-columns:1fr}
+  .lyr article:nth-child(n){padding-inline:0;border-inline-end:0}
+  .stages{grid-template-columns:1fr 1fr}
+  .stages li:nth-child(n){border-inline-start:0;border-top:1px solid var(--line)}
+  .stages li:nth-child(even){border-inline-start:1px solid var(--line)}
+  .stages li:first-child{border-top:0}
+  .stages li:nth-child(2){border-top:0}
+  .offer-wrap{padding:22px 14px}
+  .offer{padding:26px 20px}
+  .tb{grid-template-columns:1fr 1fr}
+  .tb > div:first-child{grid-column:1/-1}
+  .tb > div:nth-child(n+2){border-top:1px solid var(--ink)}
+  .tb > div:nth-child(2),.tb > div:nth-child(4){border-inline-start:0}
+  section.band{padding-block:60px}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}.btn-y:hover{transform:none}}
+</style>
+
+<div dir="rtl" lang="ar">
+
+<header class="titlebar">
+  <div class="wrap">
+    <div class="logo"><i aria-hidden="true"></i>نظام إدارة رخص البناء</div>
+    <span class="file">kroky_8.00x7.40.dxf</span>
+    <nav class="nav" aria-label="أقسام الصفحة">
+      <a href="#layers">المميزات</a><a href="#plan">التقسيم</a><a href="#mobile">الموبايل</a><a href="#offer">العرض</a><a href="#faq">أسئلة</a>
+    </nav>
+    <a class="btn btn-y btn-sm" href="#try">جرّب ببلاش</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <p class="kicker">COMMAND: KROKY ↵</p>
+        <h1>الرخصة في ربع ساعة.<span class="ghost">مش يوم كامل.</span></h1>
+      </div>
+      <div class="hero-side">
+        <p><b>كروكي DXF بالردود، وتقسيم مقترح للدور، وتقارير Word جاهزة.</b> تكتب بيانات الرخصة مرة واحدة، والبرنامج يعمل الباقي. وأنت تراجع وتطبع.</p>
+        <div class="ctas">
+          <a class="btn btn-y" href="#try">جرّب 14 يوم ببلاش</a>
+          <a class="btn btn-o" href="#offer">خصم 50% لأول 10 مكاتب</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ws" aria-label="تجربة رسم كروكي">
+      <div class="vp">
+        <div class="vp-tabs"><span class="on">Model</span><span>Layout1</span><span>Layout2</span></div>
+        <div class="canvas">
+          <svg id="cad" viewBox="0 0 640 440" role="img" aria-label="كروكي القطعة بالمقاسات اللي اخترتها"></svg>
+          <span class="ucs">Y↑ X→</span>
+        </div>
+        <div class="cmd">
+          <span class="prompt" id="cmdtxt"></span>
+          <span class="mono" id="coords">حرّك الماوس على الرسمة</span>
+        </div>
+      </div>
+
+      <aside class="props" aria-label="خصائص القطعة">
+        <h3>PROPERTIES</h3>
+        <div class="pgroup">
+          <div class="field">
+            <label for="w">عرض القطعة <output id="wo" for="w">8.00 م</output></label>
+            <input type="range" id="w" min="5" max="20" step="0.1" value="8">
+          </div>
+          <div class="field">
+            <label for="d">عمق القطعة <output id="do" for="d">7.40 م</output></label>
+            <input type="range" id="d" min="5" max="25" step="0.1" value="7.4">
+          </div>
+        </div>
+        <div class="pgroup">
+          <span style="font-size:.9rem">الشوارع (دوس عشان تضيف أو تشيل)</span>
+          <div class="compass">
+            <button class="st top" type="button" id="s-top" aria-pressed="false">شارع خلفي</button>
+            <button class="st left" type="button" id="s-left" aria-pressed="false">شمال</button>
+            <span class="lot" aria-hidden="true"></span>
+            <button class="st right" type="button" id="s-right" aria-pressed="true">يمين</button>
+            <button class="st bottom" type="button" id="s-bottom" aria-pressed="true">شارع أمامي</button>
+          </div>
+        </div>
+        <h3>LAYERS</h3>
+        <ul class="layers">
+          <li><input class="bulb" type="checkbox" id="l-plot" checked aria-label="إظهار حدود القطعة"><span class="sw" style="background:var(--ink)"></span>حدود القطعة<span class="nm">P-PLOT</span></li>
+          <li><input class="bulb" type="checkbox" id="l-set" checked aria-label="إظهار الردود"><span class="sw" style="background:var(--red)"></span>الردود والهاشور<span class="nm">P-SETBACK</span></li>
+          <li><input class="bulb" type="checkbox" id="l-dim" checked aria-label="إظهار الأبعاد"><span class="sw" style="background:var(--cyan)"></span>الأبعاد<span class="nm">DIM</span></li>
+          <li><input class="bulb" type="checkbox" id="l-txt" checked aria-label="إظهار النصوص"><span class="sw" style="background:var(--yellow)"></span>النصوص<span class="nm">TEXT</span></li>
+        </ul>
+        <p class="note-sm">رسمة توضيحية. في البرنامج بتدخل عروض الشوارع، وقيمة الرد بتتحسب حسب الاشتراطات.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="t-time">
+  <div class="wrap">
+    <div class="sh"><span class="tag">TIME / LICENSE</span><h2 id="t-time">نفس الرخصة، على نفس المقياس</h2></div>
+    <div class="bars">
+      <div class="barrow">
+        <div class="lbl">الطريقة المعتادة<small>≈ 5 h</small></div>
+        <div class="track" aria-label="5 ساعات">
+          <div class="seg a" style="width:40%">كروكي وردود</div>
+          <div class="seg b" style="width:40%">تقسيم الدور</div>
+          <div class="seg c" style="width:20%">تقارير</div>
+        </div>
+      </div>
+      <div class="barrow">
+        <div class="lbl">بالبرنامج<small>≈ 16 min</small></div>
+        <div class="track" aria-label="حوالي 16 دقيقة">
+          <div class="seg fast" style="width:5.3%" title="بيانات + كروكي + تقسيم + تقارير"></div>
+        </div>
+      </div>
+      <div class="scale"><span>0</span><span>1h</span><span>2h</span><span>3h</span><span>4h</span><span>5h</span></div>
+    </div>
+    <p class="fine">الأرقام تقديرية من شغل مكتب. البيانات بتتكتب مرة واحدة (~5 دقايق)، والكروكي والتقسيم والتقارير بيطلعوا منها، وبعدين مراجعتك. أحسن مقياس إنك تجرّب على رخصة من رخصك.</p>
+  </div>
+</section>
+
+<section class="band" id="layers" aria-labelledby="t-layers">
+  <div class="wrap">
+    <div class="sh"><span class="tag">LAYER MANAGER</span><h2 id="t-layers">كل اللي الرخصة محتاجاه، في ملف واحد</h2></div>
+    <div class="lyr">
+      <article><span class="sw" style="background:var(--red)"></span><span class="nm">P-SETBACK</span><h3>كروكي DXF بالردود</h3><p>شارع أو اتنين أو تلاتة أو أربعة. الردود محسوبة ومتهشّرة، والأبعاد بالعربي، والملف بيتفتح على أوتوكاد.</p></article>
+      <article><span class="sw" style="background:var(--green)"></span><span class="nm">A-PLAN</span><h3>تقسيم مقترح للدور</h3><p>بدائل للسلم والصالة والغرف والمطبخ والحمام والمناور، بحوائط حاملة أو بهيكل، ولوحة كاملة تعدّل عليها.</p></article>
+      <article><span class="sw" style="background:var(--magenta)"></span><span class="nm">P-PLOT-EDGE</span><h3>القطع اللي مش مستطيلة</h3><p>من إحداثيات الرفع المساحي: البرنامج بيطلّع أكبر مستطيل على الشارع، ويرسم حدود القطعة الحقيقية.</p></article>
+      <article><span class="sw" style="background:var(--yellow)"></span><span class="nm">DOCX</span><h3>تقارير Word جاهزة</h3><p>بيانات الرخصة بتتكتب مرة واحدة، والتقارير بتتملي منها. مفيش تكرار ولا غلطة كتابة ترجّع الملف.</p></article>
+      <article><span class="sw" style="background:var(--cyan)"></span><span class="nm">ARCHIVE</span><h3>مجلد لكل رخصة</h3><p>البطاقة والعقد والتوكيل والرسومات والتقارير في مكان واحد، وتلاقيها في ثانية.</p></article>
+      <article><span class="sw" style="background:var(--ink)"></span><span class="nm">MOBILE</span><h3>المكتب على الموبايل</h3><p>تابع المواعيد، واكتب الردود من الموقع، وصوّر المستندات، واطلب التقارير، وتلاقيها جاهزة على جهاز المكتب.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="plan" aria-labelledby="t-plan">
+  <div class="wrap">
+    <div class="sh"><span class="tag">AUTO-PLAN</span><h2 id="t-plan">أصعب جزء في الرخصة، بقى أول اقتراح في دقيقة</h2></div>
+    <div class="plan">
+      <figure>
+        <svg id="plansvg" viewBox="0 0 560 520" role="img" aria-label="شكل توضيحي لتقسيم قطعة ناصية 8.00 في 7.40 متر: سلم على الناصية ومنور وراه، مطبخ وحمام على الشارع، طرقة، وغرفتين"></svg>
+        <figcaption>شكل توضيحي لنمط «الناصية الصغيرة» على قطعة 8.00 × 7.40: السلم على الناصية والمنور وراه، والمطبخ والحمام على الشارع.</figcaption>
+      </figure>
+      <ul class="ticks">
+        <li><span><b>بدائل مش اقتراح واحد.</b> <span class="muted">بتختار الأقرب لطلب العميل وتعدّل عليه.</span></span></li>
+        <li><span><b>حوائط حاملة أو هيكل خرساني.</b> <span class="muted">ومحاور الأعمدة بتترصّ من غير ما تضيّق بيت السلم.</span></span></li>
+        <li><span><b>القطع الصغيرة والضحلة.</b> <span class="muted">زي 8.00 × 7.40 و6.00 × 11.00 و5.60 × 14.00، من مقاسات رخص حقيقية.</span></span></li>
+        <li><span><b>بيتفتح على أوتوكاد.</b> <span class="muted">القرار الهندسي والمراجعة عليك، والبرنامج يوفّرلك نقطة البداية.</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="mobile" aria-labelledby="t-mobile">
+  <div class="wrap">
+    <div class="sh"><span class="tag">MOBILE APP</span><h2 id="t-mobile">المكتب في جيبك</h2>
+      <p>تطبيق موبايل مربوط ببرنامج المكتب. تتابع رخصك، وتكتب الردود وأنت في الموقع، وتطلب التقارير، وتلاقيها جاهزة على اللاب توب.</p></div>
+    <div class="phones">
+
+      <figure class="ph" style="margin:0">
+        <div class="ph-f"><div class="scr" aria-hidden="true">
+          <div class="sb"><span>12:18</span><span>▮▮▮ 62%</span></div>
+          <div class="ab">رخص البناء<span class="ic">⟳ ⇥</span></div>
+          <div class="chips"><span class="chip on">✓ الكل (24)</span><span class="chip">جديدة (3)</span><span class="chip">منتظر الرفع المساحي (5)</span></div>
+          <div class="srch">بحث بالاسم أو الرقم القومي أو القرية</div>
+          <div class="cardm"><b>محمد أحمد علي</b><span class="n">#24</span><span class="pl">قرية النور — مركز الأمل</span><span></span><span class="due">متبقي 4 يوم</span><span class="badge-m b-or">منتظر الرفع المساحي</span></div>
+          <div class="cardm"><b>أحمد سعيد حسن</b><span class="n">#23</span><span class="pl">قرية النور — مركز الأمل</span><span></span><span class="due late">متأخرة 3 يوم</span><span class="badge-m b-bl">جديدة</span></div>
+          <div class="cardm"><b>محمود علي إبراهيم</b><span class="n">#22</span><span class="pl">كفر السلام — مركز الأمل</span><span></span><span class="due">متبقي 9 يوم</span><span class="badge-m b-rd">منتظر بيان الصلاحية</span></div>
+          <div class="cardm"><b>خالد مصطفى يوسف</b><span class="n">#21</span><span class="pl">كفر السلام — مركز الأمل</span><span></span><span></span><span class="badge-m b-gr">مكتملة</span></div>
+          <div class="cardm"><b>سامي فتحي محمد</b><span class="n">#20</span><span class="pl">قرية النور — مركز الأمل</span><span></span><span></span><span class="badge-m b-gr">مكتملة</span></div>
+          <div class="fab">＋ رخصة جديدة</div>
+        </div></div>
+        <figcaption><b>كل رخصة ومعادها</b><span>تعرف الرخصة واقفة فين، وفاضلها كام يوم أو متأخرة كام، وتدوّر بالاسم أو الرقم القومي أو القرية.</span></figcaption>
+      </figure>
+
+      <figure class="ph" style="margin:0">
+        <div class="ph-f"><div class="scr" aria-hidden="true">
+          <div class="sb"><span>12:19</span><span>▮▮▮ 62%</span></div>
+          <div class="ab">→ محمد أحمد علي<span class="ic">⟳ ⋮</span></div>
+          <div class="tabs"><span>البيانات</span><span class="on">الارتدادات</span><span>المستندات</span><span>التقارير</span></div>
+          <div class="sum">
+            <div><span>الأبعاد بعد الردود</span><span><span class="mono">9.00×12.00</span> م</span></div>
+            <div><span>المساحة الصافية</span><span><span class="mono">108</span> م²</span></div>
+            <div><span>المساحة قبل الردود</span><span><span class="mono">120</span> م²</span></div>
+          </div>
+          <div class="lbl-m">رسم الكروكي (بيتحدث وأنت بتكتب)</div>
+          <div class="krk">
+            <svg viewBox="0 0 250 170">
+              <defs><pattern id="mh" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#555" stroke-width="1"/></pattern></defs>
+              <rect x="70" y="22" width="110" height="100" fill="none" stroke="#111" stroke-width="1.4"/>
+              <rect x="70" y="112" width="110" height="10" fill="url(#mh)"/>
+              <path d="M60 132H190" stroke="#111" stroke-width="1"/>
+              <text x="125" y="18" text-anchor="middle" font-size="7" fill="#1F5FA8">12</text>
+              <text x="125" y="131" text-anchor="middle" font-size="7" fill="#1F5FA8">12</text>
+              <text x="64" y="74" text-anchor="middle" font-size="7" fill="#1F5FA8">10</text>
+              <text x="188" y="74" text-anchor="middle" font-size="7" fill="#1F5FA8">10</text>
+              <text x="125" y="110" text-anchor="middle" font-size="6" fill="#C8372D">ردود 1 م</text>
+              <text x="125" y="146" text-anchor="middle" font-size="7.5" fill="#111">شارع بعرض 6 م</text>
+              <text x="125" y="12" text-anchor="middle" font-size="6.5" fill="#333" dy="-2">جار / دور</text>
+              <path d="M228 14l4 12-4-3-4 3z" fill="#111"/><text x="228" y="36" text-anchor="middle" font-size="6.5" fill="#111">ش</text>
+            </svg>
+          </div>
+          <div class="side">
+            <div class="hd"><b>الجهة الجنوبية</b><span class="seg2"><span>جار</span><span class="on">✓ شارع</span></span></div>
+            <div class="inp"><span class="mono">12</span><i>الطول (م)</i></div>
+            <div class="two"><div class="inp focus"><span class="mono">6</span><i>العرض على المخطط</i></div><div class="inp"><span class="mono">6</span><i>عرض الشارع الفعلي</i></div></div>
+          </div>
+        </div></div>
+        <figcaption><b>الردود من الموقع</b><span>بتكتب كل جهة شارع ولا جار، والطول والعرض، والكروكي بيترسم قدامك وبتطلع المساحة الصافية.</span></figcaption>
+      </figure>
+
+      <figure class="ph" style="margin:0">
+        <div class="ph-f"><div class="scr" aria-hidden="true">
+          <div class="sb"><span>12:20</span><span>▮▮▮ 63%</span></div>
+          <div class="ab">→ محمد أحمد علي<span class="ic">⟳ ⋮</span></div>
+          <div class="tabs"><span>البيانات</span><span>الارتدادات</span><span>المستندات</span><span class="on">التقارير</span></div>
+          <div class="note-m">التقارير والكروكي بيتعملوا على اللاب توب. اطلبهم من هنا، وهيتنفذوا أول ما برنامج اللاب توب يشتغل.</div>
+          <div class="bt fill">توليد التقارير + PDF</div>
+          <div class="bt">رسم الكروكي</div>
+          <div class="bt">توليد مساقط الترخيص (PDF)</div>
+          <div class="lbl-m" style="padding-top:8px">الطلبات</div>
+          <div class="req">
+            <div><span>توليد التقارير<br><small>في الانتظار، بيتنفذ لما اللاب توب يشتغل</small></span><span class="wait">◷</span></div>
+            <div><span>رسم الكروكي<br><small>تم</small></span><span class="ok">✓</span></div>
+            <div><span>مساقط الترخيص<br><small>تم</small></span><span class="ok">✓</span></div>
+          </div>
+          <div class="toast">تم إرسال الطلب. هيتنفذ أول ما برنامج اللاب توب يشتغل.</div>
+        </div></div>
+        <figcaption><b>اطلب، وتلاقيه جاهز</b><span>من الموبايل تطلب التقارير والكروكي والمساقط، وتتعمل على جهاز المكتب وتتحفظ في مجلد الرخصة.</span></figcaption>
+      </figure>
+
+    </div>
+    <p class="demo-note">الشاشات من التطبيق، والبيانات اللي فيها للتوضيح بس.</p>
+  </div>
+</section>
+
+<section class="band alt" aria-labelledby="t-stages">
+  <div class="wrap">
+    <div class="sh"><span class="tag">SHEET SET</span><h2 id="t-stages">كل رخصة واقفة فين، من غير دفتر</h2></div>
+    <ol class="stages">
+      <li>جديدة</li>
+      <li>منتظر الرفع المساحي</li>
+      <li>منتظر بيان الصلاحية</li>
+      <li>منتظر الشئون القانونية</li>
+      <li>استكمال بيانات الترخيص</li>
+      <li>منتظر تقديم الترخيص</li>
+      <li>مكتملة</li>
+    </ol>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="t-sec">
+  <div class="wrap">
+    <div class="sh"><span class="tag">SECURITY</span><h2 id="t-sec">بيانات عملائك تفضل عندك</h2></div>
+    <ul class="ticks y" style="max-width:760px">
+      <li><span><b>نسخة خاصة لكل مكتب.</b> <span class="muted">بملفاتها وقاعدة بياناتها، ومفيش مكتب يشوف حاجة لمكتب تاني.</span></span></li>
+      <li><span><b>مقفولة على جهازك.</b> <span class="muted">محدش ياخد النسخة وينسخها على جهاز تاني.</span></span></li>
+      <li><span><b>التركيب والتدريب علينا.</b> <span class="muted">على جهازك، وعلى رخصة من رخصك.</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band alt" id="offer" aria-labelledby="t-offer">
+  <div class="wrap">
+    <div class="offer-wrap" id="offerwrap">
+      <svg class="cloud" id="cloud" aria-hidden="true"><path/></svg>
+      <span class="delta"><b>1</b>REV — OFFER</span>
+      <div class="offer">
+        <div class="pct">50%<small>خصم</small></div>
+        <div>
+          <h2 id="t-offer">لأول 10 مكاتب بس</h2>
+          <ul class="ticks y">
+            <li><span>البرنامج كامل بنص السعر، دفعة واحدة</span></li>
+            <li><span>تركيب وتدريب على جهازك</span></li>
+            <li><span>سنة تحديثات ودعم</span></li>
+            <li><span>تقسيط على 3 دفعات لو حابب</span></li>
+          </ul>
+        </div>
+        <a class="btn btn-y" href="#try">احجز مكانك</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="faq" aria-labelledby="t-faq">
+  <div class="wrap">
+    <div class="sh"><span class="tag">FAQ</span><h2 id="t-faq">قبل ما تقرر</h2></div>
+    <div class="faq">
+      <details><summary>هو البرنامج هيعمل الرخصة مكاني؟</summary><p>لأ. البرنامج بيعمل الشغل المتكرر: الكروكي والتقارير وأول اقتراح للتقسيم. القرار الهندسي والمراجعة عليك، وكل رسمة بتتفتح على أوتوكاد وتعدّل فيها براحتك.</p></details>
+      <details><summary>أنا مش بتاع برامج، هعرف أستخدمه؟</summary><p>التركيب والتدريب علينا، على جهازك وعلى رخصة من رخصك. ولو وقفت في أي حاجة، ابعتلنا رسالة ونرد عليك.</p></details>
+      <details><summary>بيشتغل على أنهي أجهزة؟</summary><p>البرنامج على ويندوز، والرسومات بتتفتح على أوتوكاد. ومعاه تطبيق موبايل أندرويد مربوط ببرنامج المكتب.</p></details>
+      <details><summary>لو الاشتراطات اتغيرت؟</summary><p>التحديثات جزء من الدعم السنوي. وأي حالة تقابلك والبرنامج ما يحلّهاش، ابعتهالنا وتدخل في التحديث الجاي.</p></details>
+      <details><summary>إزاي أجرّب قبل ما أدفع؟</summary><p>تجربة 14 يوم ببلاش على جهازك. لو ما وفّرلكش وقت، ما تدفعش حاجة.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="try" aria-labelledby="t-try">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <p class="kicker">TRIAL — 14 DAYS</p>
+        <h2 id="t-try">جرّبه على رخصة من رخصك.</h2>
+        <p class="muted" style="margin-top:16px;font-size:1.1rem">ابعتلنا كلمة «تجربة» في رسالة على صفحتنا في فيسبوك، ونرد عليك ونحدد ميعاد التركيب.</p>
+      </div>
+      <div class="phonecard">
+        <span class="lbl">FACEBOOK · MESSENGER</span>
+        <span class="fbline"><span class="fbi" aria-hidden="true">f</span>راسلنا على فيسبوك</span>
+        <p class="muted">اكتب «تجربة»، ومعاها محافظتك وعدد الرخص اللي بتعملها في الشهر.</p>
+        <div class="row">
+          <a class="btn btn-y" id="fb-link" href="#" target="_blank" rel="noopener" hidden>افتح صفحتنا على فيسبوك</a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="tb">
+      <div><small>PROJECT</small><b>نظام إدارة رخص البناء</b></div>
+      <div><small>CLIENT</small><b>المكاتب الهندسية</b></div>
+      <div><small>OUTPUT</small><b class="mono">DXF · DOCX</b></div>
+      <div><small>TRIAL</small><b>14 يوم</b></div>
+      <div><small>SCALE</small><b class="mono">1:100</b></div>
+    </footer>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+  var C={ink:'var(--ink)',muted:'var(--muted)',red:'var(--red)',cyan:'var(--cyan)',yellow:'var(--yellow)',green:'var(--green)',street:'var(--panel-2)'};
+  var f=function(n){return n.toFixed(2);};
+
+  /* ---------- live kroky ---------- */
+  var svg=document.getElementById('cad'), wI=document.getElementById('w'), dI=document.getElementById('d');
+  var sides={top:false,bottom:true,left:false,right:true};
+  var geo=null, ch=null;
+  function render(){
+    var W=+wI.value, D=+dI.value;
+    document.getElementById('wo').textContent=f(W)+' م';
+    document.getElementById('do').textContent=f(D)+' م';
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var defs=el('defs',{},svg), pat=el('pattern',{id:'h',width:8,height:8,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},defs);
+    el('line',{x1:0,y1:0,x2:0,y2:8,stroke:C.red,'stroke-width':1.5},pat);
+    var SB=46, room=100, s=Math.min((640-2*room)/W,(440-2*room)/D);
+    var pw=W*s, ph=D*s, x0=(640-pw)/2, y0=(440-ph)/2;
+    geo={x0:x0,y0:y0,s:s,pw:pw,ph:ph,W:W,D:D};
+    var gPlot=el('g',{id:'g-plot'},svg), gSet=el('g',{id:'g-set'},svg), gDim=el('g',{id:'g-dim'},svg), gTxt=el('g',{id:'g-txt'},svg);
+    // streets
+    var L=sides.left?SB:0, R=sides.right?SB:0, T=sides.top?SB:0, B=sides.bottom?SB:0;
+    var sts=[];
+    if(sides.bottom){el('rect',{x:x0-L,y:y0+ph,width:pw+L+R,height:SB,fill:C.street},gPlot);sts.push([x0+pw/2,y0+ph+SB/2+5,0]);}
+    if(sides.top){el('rect',{x:x0-L,y:y0-SB,width:pw+L+R,height:SB,fill:C.street},gPlot);sts.push([x0+pw/2,y0-SB/2+5,0]);}
+    if(sides.right){el('rect',{x:x0+pw,y:y0-T,width:SB,height:ph+T+B,fill:C.street},gPlot);sts.push([x0+pw+SB/2,y0+ph/2,90]);}
+    if(sides.left){el('rect',{x:x0-SB,y:y0-T,width:SB,height:ph+T+B,fill:C.street},gPlot);sts.push([x0-SB/2,y0+ph/2,-90]);}
+    sts.forEach(function(p){el('text',{x:p[0],y:p[1],'text-anchor':'middle','font-size':13,fill:C.muted,'font-family':'IBM Plex Sans Arabic, sans-serif',transform:p[2]?'rotate('+p[2]+' '+p[0]+' '+p[1]+')':''},gTxt,'شارع');});
+    el('rect',{x:x0,y:y0,width:pw,height:ph,fill:'none',stroke:C.ink,'stroke-width':2.5},gPlot);
+    // setbacks
+    var t=Math.max(12,Math.min(pw,ph)*0.11);
+    if(sides.bottom)el('rect',{x:x0,y:y0+ph-t,width:pw,height:t,fill:'url(#h)'},gSet);
+    if(sides.top)el('rect',{x:x0,y:y0,width:pw,height:t,fill:'url(#h)'},gSet);
+    if(sides.right)el('rect',{x:x0+pw-t,y:y0,width:t,height:ph,fill:'url(#h)'},gSet);
+    if(sides.left)el('rect',{x:x0,y:y0,width:t,height:ph,fill:'url(#h)'},gSet);
+    var bx0=x0+(sides.left?t:0), bx1=x0+pw-(sides.right?t:0), by0=y0+(sides.top?t:0), by1=y0+ph-(sides.bottom?t:0);
+    if(sides.top||sides.bottom||sides.left||sides.right)
+      el('rect',{x:bx0,y:by0,width:bx1-bx0,height:by1-by0,fill:'none',stroke:C.red,'stroke-width':1.4,'stroke-dasharray':'7 5'},gSet);
+    // dims
+    var dy=y0-T-22, dx=x0-L-22;
+    el('path',{d:'M'+x0+' '+dy+'H'+(x0+pw)+'M'+x0+' '+(dy-6)+'v12M'+(x0+pw)+' '+(dy-6)+'v12M'+x0+' '+(dy+6)+'V'+(y0-T-2)+'M'+(x0+pw)+' '+(dy+6)+'V'+(y0-T-2),stroke:C.cyan,'stroke-width':1,fill:'none'},gDim);
+    el('text',{x:x0+pw/2,y:dy-7,'text-anchor':'middle','font-size':13,fill:C.cyan,'font-family':'JetBrains Mono, monospace'},gDim,f(W));
+    el('path',{d:'M'+dx+' '+y0+'V'+(y0+ph)+'M'+(dx-6)+' '+y0+'h12M'+(dx-6)+' '+(y0+ph)+'h12M'+(dx+6)+' '+y0+'H'+(x0-L-2)+'M'+(dx+6)+' '+(y0+ph)+'H'+(x0-L-2),stroke:C.cyan,'stroke-width':1,fill:'none'},gDim);
+    el('text',{x:dx-8,y:y0+ph/2,'text-anchor':'middle','font-size':13,fill:C.cyan,'font-family':'JetBrains Mono, monospace',transform:'rotate(-90 '+(dx-8)+' '+(y0+ph/2)+')'},gDim,f(D));
+    // texts
+    var cx=(bx0+bx1)/2, cy=(by0+by1)/2;
+    el('text',{x:cx,y:cy-4,'text-anchor':'middle','font-size':Math.min(17,pw/8),fill:C.yellow,'font-family':'Alexandria, sans-serif','font-weight':600},gTxt,'قطعة أرض');
+    el('text',{x:cx,y:cy+18,'text-anchor':'middle','font-size':Math.min(13,pw/10),fill:C.yellow,'font-family':'JetBrains Mono, monospace'},gTxt,'A = '+f(W*D)+' m²');
+    // north arrow
+    var na=el('g',{transform:'translate(600 52)'},gTxt);
+    el('circle',{r:17,fill:'none',stroke:C.muted,'stroke-width':1},na);
+    el('path',{d:'M0 -15 L6 9 L0 4 L-6 9Z',fill:C.ink},na);
+    el('text',{y:-24,'text-anchor':'middle','font-size':12,fill:C.ink,'font-family':'IBM Plex Sans Arabic, sans-serif'},na,'ش');
+    // crosshair
+    ch=el('g',{id:'ch',visibility:'hidden','pointer-events':'none'},svg);
+    el('line',{id:'chx',x1:0,x2:640,stroke:C.ink,'stroke-width':.8,opacity:.75},ch);
+    el('line',{id:'chy',y1:0,y2:440,stroke:C.ink,'stroke-width':.8,opacity:.75},ch);
+    el('rect',{id:'chb',width:10,height:10,fill:'none',stroke:C.ink,'stroke-width':1},ch);
+    applyLayers();
+    var n=(sides.top?1:0)+(sides.bottom?1:0)+(sides.left?1:0)+(sides.right?1:0);
+    document.getElementById('cmdtxt').innerHTML='الأمر: <b>KROKY</b> · قطعة <span class="mono">'+f(W)+' × '+f(D)+'</span> · '+(n?('الردود اتحسبت على '+n+(n===1?' شارع':' شوارع')):'ضيف شارع عشان تتحسب الردود');
+  }
+  function applyLayers(){
+    [['l-plot','g-plot'],['l-set','g-set'],['l-dim','g-dim'],['l-txt','g-txt']].forEach(function(p){
+      var g=document.getElementById(p[1]); if(g)g.setAttribute('visibility',document.getElementById(p[0]).checked?'visible':'hidden');});
+  }
+  wI.addEventListener('input',render); dI.addEventListener('input',render);
+  ['top','bottom','left','right'].forEach(function(k){
+    var b=document.getElementById('s-'+k);
+    b.addEventListener('click',function(){sides[k]=!sides[k];b.setAttribute('aria-pressed',sides[k]);render();});
+  });
+  ['l-plot','l-set','l-dim','l-txt'].forEach(function(id){document.getElementById(id).addEventListener('change',applyLayers);});
+  var coords=document.getElementById('coords');
+  svg.addEventListener('pointermove',function(e){
+    var m=svg.getScreenCTM(); if(!m||!geo)return;
+    var pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; var p=pt.matrixTransform(m.inverse());
+    if(e.pointerType==='mouse'){
+      ch.setAttribute('visibility','visible');
+      var lx=document.getElementById('chx'), ly=document.getElementById('chy'), bb=document.getElementById('chb');
+      lx.setAttribute('y1',p.y);lx.setAttribute('y2',p.y);ly.setAttribute('x1',p.x);ly.setAttribute('x2',p.x);
+      bb.setAttribute('x',p.x-5);bb.setAttribute('y',p.y-5);
+    }
+    var X=(p.x-geo.x0)/geo.s, Y=(geo.y0+geo.ph-p.y)/geo.s;
+    coords.textContent='X '+f(X)+'   Y '+f(Y)+'  m';
+  });
+  svg.addEventListener('pointerleave',function(){if(ch)ch.setAttribute('visibility','hidden');});
+  render();
+
+  /* ---------- plan (illustrative) ---------- */
+  var ps=document.getElementById('plansvg'), S=52, PX=80, PY=40, PW=8, PD=7.4;
+  function X(x){return PX+x*S;} function Y(y){return PY+(PD-y)*S;}
+  el('rect',{x:X(0)-20,y:Y(0),width:PW*S+20+56,height:56,fill:C.street},ps);
+  el('rect',{x:X(PW),y:Y(PD)-20,width:56,height:PD*S+20+56,fill:C.street},ps);
+  el('text',{x:X(PW/2),y:Y(0)+34,'text-anchor':'middle','font-size':13,fill:C.muted,'font-family':'IBM Plex Sans Arabic, sans-serif'},ps,'شارع');
+  el('text',{x:X(PW)+28,y:Y(PD/2),'text-anchor':'middle','font-size':13,fill:C.muted,'font-family':'IBM Plex Sans Arabic, sans-serif',transform:'rotate(90 '+(X(PW)+28)+' '+Y(PD/2)+')'},ps,'شارع');
+  var rooms=[
+    [5.2,0,8,3.8,'سلم','stair'],[0,0,3.6,2.4,'مطبخ'],[3.6,0,5.2,2.4,'حمام'],[0,2.4,5.2,3.8,'طرقة'],
+    [5.2,3.8,8,5.0,'منور','well'],[0,3.8,5.2,7.4,'غرفة'],[5.2,5.0,8,7.4,'غرفة']];
+  rooms.forEach(function(r){
+    var x=X(r[0]),y=Y(r[3]),w=(r[2]-r[0])*S,h=(r[3]-r[1])*S;
+    el('rect',{x:x,y:y,width:w,height:h,fill:r[5]==='well'?'var(--panel-2)':'none',stroke:C.green,'stroke-width':3},ps);
+    if(r[5]==='well'){el('path',{d:'M'+x+' '+y+'L'+(x+w)+' '+(y+h)+'M'+(x+w)+' '+y+'L'+x+' '+(y+h),stroke:C.green,'stroke-width':1,opacity:.6},ps);}
+    if(r[5]==='stair'){
+      var mid=X(6.6);
+      el('line',{x1:mid,y1:Y(3.8),x2:mid,y2:Y(1.0),stroke:C.green,'stroke-width':1.5},ps);
+      for(var yy=1.0;yy<=3.81;yy+=0.28){el('line',{x1:x,y1:Y(yy),x2:x+w,y2:Y(yy),stroke:C.green,'stroke-width':.8,opacity:.7},ps);}
+      el('path',{d:'M'+X(5.9)+' '+Y(1.2)+'V'+Y(3.5)+'M'+X(5.9)+' '+Y(3.5)+'l-5 9M'+X(5.9)+' '+Y(3.5)+'l5 9',stroke:C.ink,'stroke-width':1.2,fill:'none'},ps);
+    }
+    var cy=y+h/2, lab=el('text',{x:x+w/2,y:r[5]==='stair'?Y(0.5):cy-2,'text-anchor':'middle','font-size':15,fill:C.ink,'font-family':'Alexandria, sans-serif','font-weight':600},ps,r[4]);
+    if(r[5]!=='stair')el('text',{x:x+w/2,y:cy+16,'text-anchor':'middle','font-size':11,fill:C.cyan,'font-family':'JetBrains Mono, monospace'},ps,f(r[2]-r[0])+'×'+f(r[3]-r[1]));
+  });
+  el('rect',{x:X(0),y:Y(PD),width:PW*S,height:PD*S,fill:'none',stroke:C.ink,'stroke-width':6},ps);
+  el('path',{d:'M'+X(0)+' '+(Y(PD)-18)+'H'+X(PW)+'M'+X(0)+' '+(Y(PD)-24)+'v12M'+X(PW)+' '+(Y(PD)-24)+'v12',stroke:C.cyan,'stroke-width':1,fill:'none'},ps);
+  el('text',{x:X(PW/2),y:Y(PD)-24,'text-anchor':'middle','font-size':12,fill:C.cyan,'font-family':'JetBrains Mono, monospace'},ps,'8.00');
+  el('path',{d:'M'+(X(0)-20)+' '+Y(PD)+'V'+Y(0)+'M'+(X(0)-26)+' '+Y(PD)+'h12M'+(X(0)-26)+' '+Y(0)+'h12',stroke:C.cyan,'stroke-width':1,fill:'none'},ps);
+  el('text',{x:X(0)-28,y:Y(PD/2),'text-anchor':'middle','font-size':12,fill:C.cyan,'font-family':'JetBrains Mono, monospace',transform:'rotate(-90 '+(X(0)-28)+' '+Y(PD/2)+')'},ps,'7.40');
+
+  /* ---------- revision cloud ---------- */
+  var wrap=document.getElementById('offerwrap'), cpath=document.querySelector('#cloud path');
+  function cloud(){
+    var w=wrap.clientWidth, h=wrap.clientHeight, m=8, r=16;
+    var pts=[], d='';
+    function edge(x1,y1,x2,y2){var len=Math.hypot(x2-x1,y2-y1), n=Math.max(2,Math.round(len/(r*2)));for(var i=0;i<n;i++)pts.push([x1+(x2-x1)*i/n,y1+(y2-y1)*i/n]);}
+    edge(m,m,w-m,m);edge(w-m,m,w-m,h-m);edge(w-m,h-m,m,h-m);edge(m,h-m,m,m);
+    d='M'+pts[0][0]+' '+pts[0][1];
+    for(var i=1;i<=pts.length;i++){var p=pts[i%pts.length], q=pts[i-1], rr=Math.hypot(p[0]-q[0],p[1]-q[1])/2*1.15; d+='A'+rr+' '+rr+' 0 0 1 '+p[0]+' '+p[1];}
+    cpath.setAttribute('d',d);
+  }
+  cloud();
+  if('ResizeObserver' in window)new ResizeObserver(cloud).observe(wrap); else window.addEventListener('resize',cloud);
+
+  /* ---------- facebook page link (fill FB_URL with the page address) ---------- */
+  var FB_URL='https://www.facebook.com/profile.php?id=61596705120522';
+  if(FB_URL){var a=document.getElementById('fb-link');a.href=FB_URL;a.hidden=false;}
+})();
+</script>
+
+</html>
